@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👽 Alien Labyrinth Creator</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Particules d'arrière-plan -->
+    <div id="particles"></div>
+    
+    <!-- Navigation principale -->
+    <nav class="alien-nav">
+        <div class="nav-brand">
+            <span class="alien-icon">👽</span>
+            <h1>ALIEN LABYRINTH</h1>
+        </div>
+        <div class="nav-menu">
+            <button class="nav-btn active" data-section="auth">🚀 Connexion</button>
+            <button class="nav-btn" data-section="dashboard" style="display: none;">🌌 Tableau de bord</button>
+            <button class="nav-btn" data-section="create" style="display: none;">🛸 Créer</button>
+            <button class="nav-btn" data-section="solve" style="display: none;">🔬 Résoudre</button>
+            <button class="nav-btn admin-only hidden" data-section="admin" style="display: none;">👑 Admin</button>
+        </div>
+        <div class="user-info hidden">
+            <span class="user-name"></span>
+            <button class="logout-btn">🚪 Déconnexion</button>
+        </div>
+    </nav>
+
+    <!-- Section Authentification -->
+    <section id="auth-section" class="section active">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h2>🛸 ACCÈS AUTORISÉ</h2>
+                    <p>Entrez vos coordonnées galactiques</p>
+                </div>
+                
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="login">Connexion</button>
+                    <button class="auth-tab" data-tab="register">Inscription</button>
+                </div>
+
+                <!-- Formulaire de connexion -->
+                <form id="login-form" class="auth-form active">
+                    <div class="input-group">
+                        <label>📡 Identifiant</label>
+                        <input type="text" id="login-username" placeholder="Votre identifiant" required>
+                    </div>
+                    <div class="input-group">
+                        <label>🔐 Code d'accès</label>
+                        <input type="password" id="login-password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="alien-btn primary">
+                        <span>🚀 ACCÉDER AU VAISSEAU</span>
+                    </button>
+                </form>
+
+                <!-- Formulaire d'inscription -->
+                <form id="register-form" class="auth-form">
+                    <div class="input-group">
+                        <label>👤 Nom d'agent</label>
+                        <input type="text" id="register-username" placeholder="Agent Alpha-7" required>
+                    </div>
+                    <div class="input-group">
+                        <label>📧 Fréquence de communication</label>
+                        <input type="text" id="register-email" placeholder="Votre identifiant" required>
+                    </div>
+                    <div class="input-group">
+                        <label>🌍 Planète d'origine</label>
+                        <select id="register-planet">
+                            <option value="Earth">🌍 Terre</option>
+                            <option value="Mars">🔴 Mars</option>
+                            <option value="Venus">💛 Vénus</option>
+                            <option value="Jupiter">🟠 Jupiter</option>
+                            <option value="Saturn">🪐 Saturne</option>
+                            <option value="Unknown">❓ Inconnue</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>🔐 Code de sécurité</label>
+                        <input type="password" id="register-password" placeholder="••••••••" required>
+                    </div>
+                    <div class="input-group">
+                        <label>🔐 Confirmation du code</label>
+                        <input type="password" id="register-confirm" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="alien-btn primary">
+                        <span>🛸 REJOINDRE LA FLOTTE</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Tableau de bord -->
+    <section id="dashboard-section" class="section">
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <h2>🌌 Centre de Commande</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">🗺️</div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="total-mazes">0</span>
+                            <span class="stat-label">Labyrinthes créés</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="solved-mazes">0</span>
+                            <span class="stat-label">Résolus</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="avg-difficulty">0</span>
+                            <span class="stat-label">Difficulté moyenne</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mazes-grid" id="mazes-grid">
+                <div class="empty-state">
+                    <h3>🛸 Aucun labyrinthe créé</h3>
+                    <p>Commencez par créer votre premier labyrinthe alien !</p>
+                    <button class="alien-btn primary" id="create-first-maze">
+                        🌀 Créer un labyrinthe
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Création -->
+    <section id="create-section" class="section">
+        <div class="create-container">
+            <div class="create-header">
+                <h2>🛸 Générateur de Labyrinthes Alien</h2>
+            </div>
+            
+            <div class="create-controls">
+                <div class="control-group">
+                    <label>📏 Taille du secteur</label>
+                    <select id="maze-size">
+                        <option value="small">Petit (21x21)</option>
+                        <option value="medium" selected>Moyen (31x31)</option>
+                        <option value="large">Grand (41x41)</option>
+                        <option value="massive">Massif (61x61)</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label>⚡ Niveau de difficulté: <span id="difficulty-value">5</span></label>
+                    <input type="range" id="difficulty-slider" min="1" max="10" value="5">
+                </div>
+
+                <div class="control-group">
+                    <label>🎨 Thème alien</label>
+                    <select id="maze-theme">
+                        <option value="cosmic">🌌 Cosmique</option>
+                        <option value="alien">👽 Alien</option>
+                        <option value="cyberpunk">🤖 Cyberpunk</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label>🏷️ Nom de la mission</label>
+                    <input type="text" id="maze-name" placeholder="Mission Alpha-7">
+                </div>
+                
+                <button id="generate-btn" class="alien-btn primary">
+                    <span>🌀 GÉNÉRER LABYRINTHE</span>
+                </button>
+            </div>
+
+            <div class="maze-preview">
+                <canvas id="maze-canvas" width="600" height="600"></canvas>
+                
+                <!-- Informations de jeu -->
+                <div class="game-info">
+                    <div class="info-item">
+                        <span>🚶 Mouvements:</span>
+                        <span id="move-counter">0</span>
+                    </div>
+                    <div class="info-item">
+                        <span>⏱️ Temps:</span>
+                        <span id="time-counter">0:00</span>
+                    </div>
+                </div>
+                
+                <div class="controls-help">
+                    <p>Utilisez les flèches ou ZQSD/WASD pour vous déplacer</p>
+                </div>
+                
+                <div class="maze-actions" style="display: none;">
+                    <button id="save-maze-btn" class="alien-btn success">
+                        <span>💾 SAUVEGARDER</span>
+                    </button>
+                    <button id="solve-preview-btn" class="alien-btn secondary">
+                        <span>🔍 RÉSOUDRE</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Résolution -->
+    <section id="solve-section" class="section">
+        <div class="solve-container">
+            <div class="solve-header">
+                <h2>🔬 Analyseur de Labyrinthes</h2>
+            </div>
+            
+            <div class="maze-selector">
+                <select id="solve-maze-select">
+                    <option value="">Sélectionner un labyrinthe...</option>
+                </select>
+                <button id="load-maze-btn" class="alien-btn primary">
+                    <span>📡 CHARGER</span>
+                </button>
+            </div>
+
+            <div class="solve-preview">
+                <canvas id="solve-canvas" width="600" height="600"></canvas>
+                <div class="solve-controls" style="display: none;">
+                    <button id="solve-btn" class="alien-btn success">
+                        <span>🚀 RÉSOUDRE AUTOMATIQUEMENT</span>
+                    </button>
+                    <button id="reset-solve-btn" class="alien-btn warning">
+                        <span>🔄 RÉINITIALISER</span>
+                    </button>
+                </div>
+                <div class="solve-info">
+                    <div class="info-item">
+                        <span>⏱️ Temps de résolution:</span>
+                        <span id="solve-time">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span>📏 Longueur du chemin:</span>
+                        <span id="path-length">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Administration -->
+    <section id="admin-section" class="section">
+        <div class="admin-container">
+            <div class="admin-header">
+                <h2>👑 Centre de Contrôle Galactique</h2>
+            </div>
+            
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-admin-tab="users">👥 Utilisateurs</button>
+                <button class="admin-tab" data-admin-tab="mazes">🗺️ Labyrinthes</button>
+                <button class="admin-tab" data-admin-tab="stats">📊 Statistiques</button>
+            </div>
+
+            <!-- Gestion des utilisateurs -->
+            <div id="admin-users" class="admin-content active">
+                <div class="users-table">
+                    <table id="users-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom d'utilisateur</th>
+                                <th>Email</th>
+                                <th>Rôle</th>
+                                <th>Planète</th>
+                                <th>Date de création</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Gestion des labyrinthes -->
+            <div id="admin-mazes" class="admin-content">
+                <div class="mazes-table">
+                    <table id="admin-mazes-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Créateur</th>
+                                <th>Taille</th>
+                                <th>Difficulté</th>
+                                <th>Thème</th>
+                                <th>Date de création</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Statistiques -->
+            <div id="admin-stats" class="admin-content">
+                <div class="stats-dashboard">
+                    <div class="stat-card large">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="total-users">0</span>
+                            <span class="stat-label">Agents totaux</span>
+                        </div>
+                    </div>
+                    <div class="stat-card large">
+                        <div class="stat-icon">🗺️</div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="total-all-mazes">0</span>
+                            <span class="stat-label">Labyrinthes totaux</span>
+                        </div>
+                    </div>
+                    <div class="stat-card large">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="avg-mazes-per-user">0</span>
+                            <span class="stat-label">Moyenne par agent</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Messages de notification -->
+    <div id="notifications"></div>
+
+    <!-- Script principal -->
+    <script src="app.js"></script>
+</body>
+</html>
