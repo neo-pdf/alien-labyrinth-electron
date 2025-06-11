@@ -1,0 +1,23 @@
+{
+  "name": "alien-labyrinth-creator",
+  "version": "1.0.0",
+  "description": "🛸 Créateur de labyrinthes extraterrestres avec Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder"
+  },
+  "keywords": ["electron", "labyrinth", "alien", "game", "maze"],
+  "author": "Alien Dev Team",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^27.0.0",
+    "electron-builder": "^24.6.4"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.6",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
